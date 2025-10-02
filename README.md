@@ -3,7 +3,7 @@
 # 🏥 Proyecto Clínica Salud+ – CRUD de Pacientes y Médicos
 
 ## 📖 Descripción
-Este proyecto corresponde a la **Clase 7** de Metodología de Sistemas II.  
+Este proyecto corresponde a la materia de Metodología de Sistemas II.  
 El objetivo es implementar una **API REST** con operaciones CRUD para gestionar pacientes y médicos en una clínica.  
 
 La API podrá consumirse desde **Postman** y también se construirá un **frontend web** simple que interactúe con los datos.  
