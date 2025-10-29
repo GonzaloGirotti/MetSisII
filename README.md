@@ -25,6 +25,25 @@ La API podrá consumirse desde **Postman** y también se construirá un **fronte
    ```bash
    git clone https://github.com/GonzaloGirotti/MetSisII
    ```
+2. Navegar al directorio del backend python del proyecto:
+   ```bash
+   cd backend/app
+   ```
+3. Instalar las dependencias:
+   ```bash
+   pip install -r requirements.txt
+   ```
+
+4. Navegar al directorio del gateway:
+   ```bash
+   cd ../../gateway
+   ```
+
+5. Instalar las dependencias:
+   
+   ```bash
+   npm install
+   ```
 
 ---
 
