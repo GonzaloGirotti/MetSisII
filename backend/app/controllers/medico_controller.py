@@ -19,3 +19,6 @@ def search_medic(id: int):
     
 def add_medic(medico):
     medics_list.append(medico)
+    
+def delete_medic(medico):
+    medics_list.remove(medico)
