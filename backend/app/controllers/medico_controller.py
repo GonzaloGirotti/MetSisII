@@ -1,10 +1,3 @@
-'''
-Controlador:
-- Sigue el patron de arquitectura MVC (modelo-vista-controlador).
-- Intermediario entre el modelo y la vista, recibiendo datos del modelo y transformandolos para pasarlos a la vista.
-'''
-
-
 medics_list = []
 
 def get_medics():

@@ -16,8 +16,9 @@ async def get_medico(id: int):
 
 @router.post("/", response_model=Medico)
 async def crear_medico(medic: Medico):
-    if(type(med_control.search_medic(medic.id)) == Medico):
-        raise HTTPException(status_code=404, detail="El medico ya existe.")
+    medico_duplicado = med_control.search_medic(medic.id)
+    if(type(medico_duplicado) == Medico):
+        raise HTTPException(status_code=404, detail="El medico ingresado ya existe.")
     
     med_control.add_medic(medic)
     return medic
