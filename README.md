@@ -72,6 +72,9 @@ La API podrá consumirse desde **Postman** y también se construirá un
     npm install
     ```
 
+    ``` bash
+    npm install axios
+    ```
 8. Ejecutar el servidor de desarrollo:
 
 ``` bash
