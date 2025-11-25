@@ -1,8 +1,35 @@
 import type { Medico } from "../types/Medico";
-import { apiGet, apiPost, apiPut, apiDelete } from "./api";
 
-export const getMedicos = () => apiGet("/medicos/");
-export const getMedico = (id: number) => apiGet(`/medicos/${id}`);
-export const crearMedico = (m: Medico) => apiPost("/medicos/", m);
-export const editarMedico = (m: Medico) => apiPut("/medicos/", m);
-export const eliminarMedico = (id: number) => apiDelete(`/medicos/${id}`);
+const API_URL = "http://localhost:3000/api/medicos"; // Ajustar si tu backend corre en otro puerto
+
+export const getMedicos = async (): Promise<Medico[]> => {
+  const res = await fetch(API_URL);
+  return res.json();
+};
+
+export const getMedico = async (id: number): Promise<Medico> => {
+  const res = await fetch(`${API_URL}/${id}`);
+  return res.json();
+};
+
+export const crearMedico = async (medico: Medico): Promise<Medico> => {
+  const res = await fetch(API_URL, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(medico),
+  });
+  return res.json();
+};
+
+export const modificarMedico = async (medico: Medico): Promise<Medico> => {
+  const res = await fetch(`${API_URL}/${medico.id}`, {
+    method: "PUT",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(medico),
+  });
+  return res.json();
+};
+
+export const eliminarMedico = async (id: number): Promise<void> => {
+  await fetch(`${API_URL}/${id}`, { method: "DELETE" });
+};
