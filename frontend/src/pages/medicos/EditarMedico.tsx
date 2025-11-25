@@ -1,56 +1,65 @@
 import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { getMedico, modificarMedico } from "../../api/medicoApi";
-import type { Medico } from "../../types/Medico";
+import { api } from "../../api/api";
 
-const EditarMedico = () => {
+export default function EditarMedico() {
   const { id } = useParams();
   const navigate = useNavigate();
-  const [medico, setMedico] = useState<Medico | null>(null);
+
+  const [medico, setMedico] = useState({
+    nombre: "",
+    matricula: "",
+    especialidad: "",
+  });
 
   useEffect(() => {
-    if (id) getMedico(Number(id)).then(setMedico);
+    api
+      .get(`/medicos/${id}`)
+      .then((res) => setMedico(res.data))
+      .catch(() => alert("Error cargando médico"));
   }, [id]);
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!medico) return;
-    await modificarMedico(medico);
-    navigate("/medicos");
+  const change = (e) => {
+    setMedico({ ...medico, [e.target.name]: e.target.value });
   };
 
-  if (!medico) return <div className="container">Cargando...</div>;
+  const enviar = (e) => {
+    e.preventDefault();
+
+    api
+      .put(`/medicos/${id}`, medico)
+      .then(() => navigate("/medicos"))
+      .catch(() => alert("Error al editar médico"));
+  };
 
   return (
-    <div className="container">
+    <div className="card">
       <h2>Editar Médico</h2>
-      <form onSubmit={handleSubmit}>
+
+      <form onSubmit={enviar}>
         <input
-          type="text"
+          name="nombre"
           value={medico.nombre}
-          onChange={(e) => setMedico({ ...medico, nombre: e.target.value })}
-          required
+          onChange={change}
+          placeholder="Nombre"
         />
+
         <input
-          type="number"
+          name="matricula"
           value={medico.matricula}
-          onChange={(e) =>
-            setMedico({ ...medico, matricula: Number(e.target.value) })
-          }
-          required
+          onChange={change}
+          placeholder="Matrícula"
         />
+
         <input
-          type="text"
+          name="especialidad"
           value={medico.especialidad}
-          onChange={(e) =>
-            setMedico({ ...medico, especialidad: e.target.value })
-          }
-          required
+          onChange={change}
+          placeholder="Especialidad"
         />
-        <button type="submit">Guardar</button>
+
+        <button className="btn btn-primary">Guardar</button>
       </form>
     </div>
   );
-};
-
-export default EditarMedico;
+}

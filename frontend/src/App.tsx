@@ -2,13 +2,14 @@ import { BrowserRouter } from "react-router-dom";
 import Router from "./routes/Router";
 import Navbar from "./components/Navbar";
 
-const App = () => {
+export default function App() {
   return (
     <BrowserRouter>
       <Navbar />
-      <Router />
+
+      <div className="page-container">
+        <Router />
+      </div>
     </BrowserRouter>
   );
-};
-
-export default App;
+}

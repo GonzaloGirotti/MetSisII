@@ -1,58 +1,68 @@
 import { useEffect, useState } from "react";
-import { useParams, useNavigate } from "react-router-dom";
-import { getPaciente, modificarPaciente } from "../../api/pacienteApi";
-import type { Paciente } from "../../types/Paciente";
+import { useNavigate, useParams } from "react-router-dom";
+import { api } from "../../api/api";
 
-const EditarPaciente = () => {
+export default function EditarPaciente() {
   const { id } = useParams();
   const navigate = useNavigate();
-  const [paciente, setPaciente] = useState<Paciente | null>(null);
+
+  const [form, setForm] = useState({
+    nombre: "",
+    edad: "",
+    obraSocial: "",
+  });
 
   useEffect(() => {
-    if (id) getPaciente(Number(id)).then(setPaciente);
+    api
+      .get(`/pacientes/${id}`)
+      .then((res) => setForm(res.data))
+      .catch(() => alert("Error cargando paciente"));
   }, [id]);
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const change = (e) =>
+    setForm({ ...form, [e.target.name]: e.target.value });
+
+  const enviar = (e) => {
     e.preventDefault();
-    if (!paciente) return;
-    await modificarPaciente(paciente);
-    navigate("/pacientes");
+
+    api
+      .put(`/pacientes/${id}`, form)
+      .then(() => navigate("/pacientes"))
+      .catch(() => alert("Error guardando cambios"));
   };
 
-  if (!paciente) return <div className="container">Cargando...</div>;
-
   return (
-    <div className="container">
+    <div className="card">
       <h2>Editar Paciente</h2>
-      <form onSubmit={handleSubmit}>
+
+      <form onSubmit={enviar}>
         <input
-          type="text"
-          value={paciente.nombre}
-          onChange={(e) =>
-            setPaciente({ ...paciente, nombre: e.target.value })
-          }
+          name="nombre"
+          value={form.nombre}
+          onChange={change}
+          placeholder="Nombre"
           required
         />
+
         <input
+          name="edad"
+          value={form.edad}
+          onChange={change}
+          placeholder="Edad"
           type="number"
-          value={paciente.edad}
-          onChange={(e) =>
-            setPaciente({ ...paciente, edad: Number(e.target.value) })
-          }
           required
         />
+
         <input
-          type="text"
-          value={paciente.obra_social}
-          onChange={(e) =>
-            setPaciente({ ...paciente, obra_social: e.target.value })
-          }
+          name="obraSocial"
+          value={form.obraSocial}
+          onChange={change}
+          placeholder="Obra Social"
           required
         />
-        <button type="submit">Guardar</button>
+
+        <button className="btn btn-primary">Guardar</button>
       </form>
     </div>
   );
-};
-
-export default EditarPaciente;
+}
