@@ -1,42 +1,68 @@
 import { useEffect, useState } from "react";
-import { getMedicos, eliminarMedico } from "../../api/medicoApi";
 import { Link } from "react-router-dom";
-import type { Medico } from "../../types/Medico";
+import { api } from "../../api/api";
 
-const MedicosList = () => {
-  const [data, setData] = useState<Medico[]>([]);
+export default function MedicosList() {
+  const [medicos, setMedicos] = useState([]);
+
+  const cargar = () => {
+    api.get("/medicos").then((res) => setMedicos(res.data));
+  };
 
   useEffect(() => {
-    getMedicos().then(setData);
+    cargar();
   }, []);
 
-  const borrar = async (id: number) => {
-    await eliminarMedico(id);
-    setData(data.filter((m) => m.id !== id));
+  const eliminar = (id) => {
+    if (!confirm("¿Eliminar médico?")) return;
+
+    api.delete(`/medicos/${id}`).then(cargar);
   };
 
   return (
-    <div className="container">
+    <div className="card">
       <h2>Médicos</h2>
-      <Link to="/medicos/crear">
-        <button>Crear Médico</button>
+
+      <Link to="/medicos/crear" className="btn btn-primary">
+        Crear Médico
       </Link>
 
-      <ul>
-        {data.map((m) => (
-          <li key={m.id}>
-            {m.nombre} — {m.especialidad}
-            <div>
-              <Link to={`/medicos/editar/${m.id}`}>
-                <button>Editar</button>
-              </Link>
-              <button onClick={() => borrar(m.id!)}>Eliminar</button>
-            </div>
-          </li>
-        ))}
-      </ul>
+      <table className="table">
+        <thead>
+          <tr>
+            <th>Nombre</th>
+            <th>Matrícula</th>
+            <th>Especialidad</th>
+            <th>Acciones</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          {medicos.map((m) => (
+            <tr key={m.id}>
+              <td>{m.nombre}</td>
+              <td>{m.matricula}</td>
+              <td>{m.especialidad}</td>
+
+              <td>
+                <Link
+                  to={`/medicos/editar/${m.id}`}
+                  className="btn btn-warning"
+                >
+                  Editar
+                </Link>
+
+                <button
+                  onClick={() => eliminar(m.id)}
+                  className="btn btn-danger"
+                >
+                  Eliminar
+                </button>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
     </div>
   );
-};
-
-export default MedicosList;
+}

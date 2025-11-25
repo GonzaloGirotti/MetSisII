@@ -1,48 +1,62 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { crearPaciente } from "../../api/pacienteApi";
+import { api } from "../../api/api";
 
-const CrearPaciente = () => {
+export default function CrearPaciente() {
   const navigate = useNavigate();
-  const [nombre, setNombre] = useState("");
-  const [edad, setEdad] = useState("");
-  const [obra_social, setObraSocial] = useState("");
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const [form, setForm] = useState({
+    nombre: "",
+    edad: "",
+    obraSocial: "",
+  });
+
+  const change = (e) =>
+    setForm({ ...form, [e.target.name]: e.target.value });
+
+  const enviar = (e) => {
     e.preventDefault();
-    await crearPaciente({ nombre, edad: Number(edad), obra_social });
-    navigate("/pacientes");
+
+    if (!form.nombre.trim()) return alert("El nombre es obligatorio");
+
+    api
+      .post("/pacientes", form)
+      .then(() => navigate("/pacientes"))
+      .catch(() => alert("Error creando paciente"));
   };
 
   return (
-    <div className="container">
+    <div className="card">
       <h2>Crear Paciente</h2>
-      <form onSubmit={handleSubmit}>
+
+      <form onSubmit={enviar}>
         <input
-          type="text"
+          name="nombre"
           placeholder="Nombre"
-          value={nombre}
-          onChange={(e) => setNombre(e.target.value)}
+          value={form.nombre}
+          onChange={change}
           required
         />
+
         <input
-          type="number"
+          name="edad"
           placeholder="Edad"
-          value={edad}
-          onChange={(e) => setEdad(e.target.value)}
+          value={form.edad}
+          onChange={change}
+          type="number"
           required
         />
+
         <input
-          type="text"
+          name="obraSocial"
           placeholder="Obra Social"
-          value={obra_social}
-          onChange={(e) => setObraSocial(e.target.value)}
+          value={form.obraSocial}
+          onChange={change}
           required
         />
-        <button type="submit">Crear</button>
+
+        <button className="btn btn-primary">Crear</button>
       </form>
     </div>
   );
-};
-
-export default CrearPaciente;
+}

@@ -1,48 +1,59 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { crearMedico } from "../../api/medicoApi";
+import { api } from "../../api/api";
 
-const CrearMedico = () => {
+export default function CrearMedico() {
   const navigate = useNavigate();
-  const [nombre, setNombre] = useState("");
-  const [matricula, setMatricula] = useState("");
-  const [especialidad, setEspecialidad] = useState("");
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const [form, setForm] = useState({
+    nombre: "",
+    matricula: "",
+    especialidad: "",
+  });
+
+  const change = (e) => {
+    setForm({ ...form, [e.target.name]: e.target.value });
+  };
+
+  const enviar = (e) => {
     e.preventDefault();
-    await crearMedico({ nombre, matricula: Number(matricula), especialidad });
-    navigate("/medicos");
+
+    if (!form.nombre.trim()) return alert("Nombre requerido");
+
+    api
+      .post("/medicos", form)
+      .then(() => navigate("/medicos"))
+      .catch(() => alert("Error creando médico"));
   };
 
   return (
-    <div className="container">
+    <div className="card">
       <h2>Crear Médico</h2>
-      <form onSubmit={handleSubmit}>
+
+      <form onSubmit={enviar}>
         <input
-          type="text"
+          name="nombre"
           placeholder="Nombre"
-          value={nombre}
-          onChange={(e) => setNombre(e.target.value)}
-          required
+          value={form.nombre}
+          onChange={change}
         />
+
         <input
-          type="number"
+          name="matricula"
           placeholder="Matrícula"
-          value={matricula}
-          onChange={(e) => setMatricula(e.target.value)}
-          required
+          value={form.matricula}
+          onChange={change}
         />
+
         <input
-          type="text"
+          name="especialidad"
           placeholder="Especialidad"
-          value={especialidad}
-          onChange={(e) => setEspecialidad(e.target.value)}
-          required
+          value={form.especialidad}
+          onChange={change}
         />
-        <button type="submit">Crear</button>
+
+        <button className="btn btn-primary">Crear</button>
       </form>
     </div>
   );
-};
-
-export default CrearMedico;
+}
