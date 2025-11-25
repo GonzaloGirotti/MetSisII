@@ -72,14 +72,17 @@ La API podrá consumirse desde **Postman** y también se construirá un
     npm install
     ```
 
+    ``` bash
+    npm install axios
+    ```
 8. Ejecutar el servidor de desarrollo:
 
 ``` bash
 npm run dev
 ```
 
-El frontend estará disponible en:\
-👉 **http://localhost:5173/**\
+El frontend estará disponible en:
+👉 **http://localhost:5173/**
 y se comunica automáticamente con el gateway en
 **http://localhost:3000/api**.
 
@@ -129,9 +132,9 @@ Esto reduce el acoplamiento y hace más simple el uso de nuestro sistema.
 
 ## 👥 Integrantes del grupo N° 15
 
--   Dario Colantonio\
--   Gonzalo Girotti\
--   Mariano Garcia\
+-   Dario Colantonio
+-   Gonzalo Girotti
+-   Mariano Garcia
 -   Gianfranco Campagnucci
 
 Metodología de Sistemas II -- Año 2025 -- UTN
