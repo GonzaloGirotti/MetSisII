@@ -18,7 +18,7 @@ class MedicoModel:
         # Índice Único para matrícula (matrícula se comporta como una PK)
         coleccion.create_index(
             [("matricula", 1)], 
-            unique=True, 
+            unique=True,
             name="idx_matricula_unique"
         )
         

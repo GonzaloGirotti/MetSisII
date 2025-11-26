@@ -13,7 +13,6 @@ async def root():
 
 app.include_router(medico_routes.router)
 app.include_router(paciente_routes.router)
-# app.include_router(turno_routes.router)
 
 if __name__ == "__main__":
     startup_event()

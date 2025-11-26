@@ -1,13 +1,11 @@
-from fastapi import APIRouter, HTTPException
+from fastapi import APIRouter
 from controllers import medico_controller as med_control
-from database.models import medico as medic_module
 from database.connection import db_client
 from database.schemas.medico_schema import MedicoSchema
-from database.models.medico import MedicoModel
 
 router = APIRouter(prefix="/medicos")
 
-# Pydantic schema for request/response
+
 Medico = MedicoSchema
 # Instancia del modelo que provee métodos de BD
 medico_model = med_control.get_medico_model(db_client)

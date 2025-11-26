@@ -1,45 +1,38 @@
-from fastapi import APIRouter, HTTPException
+from fastapi import APIRouter
 from controllers import paciente_controller as pac_control
-from database.models import paciente as patient
+from database.connection import db_client
+from database.schemas.paciente_schema import PacienteSchema
 
 router = APIRouter(prefix="/pacientes")
-Paciente = patient.Paciente # Modelo
-lista_pacientes = pac_control.get_patients()
+
+
+Paciente = PacienteSchema
+# Instancia del modelo que provee métodos de BD
+paciente_model = pac_control.get_paciente_model(db_client)
+
 
 @router.get("/")
 async def get_pacientes():
-    return pac_control.get_patients()
+    return pac_control.obtener_todos_pacientes(paciente_model)
 
-@router.get("/{id}")
-async def get_paciente(id: int):
-    return pac_control.search_patient(id)
+@router.get("/id/{id}")
+async def get_paciente_id(id: str):
+    return pac_control.obtener_paciente_por_id(id, paciente_model)
+
+@router.get("/dni/{dni}")
+async def get_paciente_dni(dni: int):
+    return pac_control.obtener_paciente_por_dni(dni, paciente_model)
 
 @router.post("/", response_model=Paciente)
 async def crear_paciente(patient: Paciente):
-    paciente_duplicado = pac_control.search_patient(patient.id)
-    if(type(paciente_duplicado) == Paciente):
-        raise HTTPException(status_code=404, detail="El paciente ingresado ya existe.")
-    
-    pac_control.add_patient(patient)
-    return patient
+     return pac_control.crear_paciente(patient.dict(), paciente_model)
 
 @router.put("/")
 async def modificar_paciente(patient: Paciente):
-
-    encontrado = pac_control.search_patient(patient.id)
-
-    return encontrado
+    return pac_control.actualizar_paciente(patient.dict(), paciente_model)
 
 @router.delete("/{id}")
-async def baja_paciente(id: int):
-    
-    encontrado = pac_control.search_patient(id)
-    
-    if not type(encontrado) == Paciente:
-        return encontrado
-    
-    pac_control.delete_patient(encontrado)
-    return {"message": f"Exito! Paciente con ID {encontrado.id} dado de baja."}
-    
+async def baja_paciente(id: str):
+    return pac_control.eliminar_paciente(id, paciente_model)
     
 
