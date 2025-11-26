@@ -1,45 +1,40 @@
 from fastapi import APIRouter, HTTPException
 from controllers import medico_controller as med_control
-from database.models import medico as medic
+from database.models import medico as medic_module
+from database.connection import db_client
+from database.schemas.medico_schema import MedicoSchema
+from database.models.medico import MedicoModel
 
 router = APIRouter(prefix="/medicos")
-Medico = medic.Medico # Modelo
-lista_medicos = med_control.get_medics()
+
+# Pydantic schema for request/response
+Medico = MedicoSchema
+# Instancia del modelo que provee métodos de BD
+medico_model = med_control.get_medico_model(db_client)
+
 
 @router.get("/")
 async def get_medicos():
-    return med_control.get_medics()
+    return med_control.obtener_todos_medicos(medico_model)
 
-@router.get("/{id}")
-async def get_medico(id: int):
-    return med_control.search_medic(id)
+@router.get("/id/{id}")
+async def get_medico_id(id: str):
+    return med_control.obtener_medico_por_id(id, medico_model)
+
+@router.get("/matricula/{matricula}")
+async def get_medico_matricula(matricula: int):
+    return med_control.obtener_medico_por_matricula(matricula, medico_model)
 
 @router.post("/", response_model=Medico)
 async def crear_medico(medic: Medico):
-    medico_duplicado = med_control.search_medic(medic.id)
-    if(type(medico_duplicado) == Medico):
-        raise HTTPException(status_code=404, detail="El medico ingresado ya existe.")
-    
-    med_control.add_medic(medic)
-    return medic
+     return med_control.crear_medico(medic.dict(), medico_model)
 
 @router.put("/")
 async def modificar_medico(medic: Medico):
-
-    encontrado = med_control.search_medic(medic.id)
-
-    return encontrado
+    return med_control.actualizar_medico(medic.dict(), medico_model)
 
 @router.delete("/{id}")
-async def baja_medico(id: int):
-    
-    encontrado = med_control.search_medic(id)
-    
-    if not type(encontrado) == Medico:
-        return encontrado
-    
-    med_control.delete_medic(encontrado)
-    return {"message": f"Exito! Medico con ID {encontrado.id} dado de baja."}
-    
+async def baja_medico(id: str):
+    return med_control.eliminar_medico(id, medico_model)
     
 

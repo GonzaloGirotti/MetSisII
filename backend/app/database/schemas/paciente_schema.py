@@ -3,6 +3,7 @@ def patient_schema(patient) -> dict:
             "id": patient["id"],
             "nombre": patient["nombre"],
             "edad": patient["edad"],
+            "dni": patient["dni"],
             "obra_social": patient["obra_social"]
             }
     
