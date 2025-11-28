@@ -47,8 +47,8 @@ export const MedicoFacade = {
     request(() => api.get(`/medicos/id/${id}`)),
   create: (data: any) =>
     request(() => api.post("/medicos/", data)),
-  update: (data: any) =>
-    request(() => api.put("/medicos/", data)), // usa _id en body
+  update: (id: string, data: any) =>
+    request(() => api.put(`/medicos/${id}`, data)), // usa _id en body
   remove: (id: string) =>
     request(() => api.delete(`/medicos/${id}`)),
 };

@@ -27,9 +27,11 @@ async def get_medico_matricula(matricula: int):
 async def crear_medico(medic: Medico):
      return med_control.crear_medico(medic.dict(), medico_model)
 
-@router.put("/")
-async def modificar_medico(medic: Medico):
-    return med_control.actualizar_medico(medic.dict(), medico_model)
+@router.put("/{id}")
+async def modificar_medico(id:str, medic: Medico):
+    medico_data = medic.dict()
+    medico_data["_id"] = id
+    return med_control.actualizar_medico(id, medico_data, medico_model)
 
 @router.delete("/{id}")
 async def baja_medico(id: str):

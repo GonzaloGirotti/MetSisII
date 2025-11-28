@@ -40,8 +40,8 @@ export default function MedicosList() {
               <td>{m.matricula}</td>
               <td>{m.especialidad}</td>
               <td>
-                <Link to={`/medicos/editar/${m.id}`} className="btn btn-warning">Editar</Link>
-                <button onClick={() => eliminar(m.id)} className="btn btn-danger">Eliminar</button>
+                <Link to={`/medicos/editar/${m._id}`} className="btn btn-warning">Editar</Link>
+                <button onClick={() => eliminar(m._id)} className="btn btn-danger">Eliminar</button>
               </td>
             </tr>
           ))}

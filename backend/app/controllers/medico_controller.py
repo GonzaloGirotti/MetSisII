@@ -65,16 +65,14 @@ def obtener_medico_por_matricula(matricula: int, model: MedicoModel) -> dict:
     return medico_doc
 
 
-def actualizar_medico(medico_data: dict, model: MedicoModel) -> dict:
+def actualizar_medico(medico_id, update_data: dict, model: MedicoModel) -> dict:
     """Actualiza un médico y devuelve el documento actualizado"""
-    
-    medico_id = medico_data.get("_id")
-    update_data = dict(medico_data)
-    update_data.pop("_id", None)
 
     if not medico_id:
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST,
                             detail="Se requiere el campo 'id' para actualizar el médico.")
+
+    update_data.pop("_id")
 
     # 1. Llamada al modelo
     if not model.actualizar_medico(medico_id, update_data):

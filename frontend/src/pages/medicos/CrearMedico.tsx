@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { MedicoFacade } from "../../api/api";
 import type { Medico } from "../../types/Medico";
+import { medico_handler } from "../../error_handlers/medico_error_handler";
 
 export default function CrearMedico() {
   const navigate = useNavigate();
@@ -21,19 +22,13 @@ export default function CrearMedico() {
     setErrors({ ...errors, [e.target.name]: "" });
   };
 
-  const validate = () => {
-    const errs: Record<string, string> = {};
-    if (!form.nombre.trim()) errs.nombre = "Nombre requerido";
-    if (!String(form.matricula).trim()) errs.matricula = "Matrícula requerida";
-    if (!form.especialidad.trim()) errs.especialidad = "Especialidad requerida";
-    return errs;
-  };
+  const validate = medico_handler(form)
 
   const enviar = async (e: React.FormEvent) => {
     e.preventDefault();
     setApiError(null);
 
-    const v = validate();
+    const v = validate;
     if (Object.keys(v).length) {
       setErrors(v);
       return;
@@ -55,14 +50,14 @@ export default function CrearMedico() {
       <h2>Crear Médico</h2>
 
       <form onSubmit={enviar}>
-        <input name="nombre" placeholder="Nombre" onChange={change} />
         {errors.nombre && <div style={{ color: "red" }}>{errors.nombre}</div>}
+        <input name="nombre" placeholder="Nombre" onChange={change} />
 
-        <input name="matricula" placeholder="Matrícula" onChange={change} />
         {errors.matricula && <div style={{ color: "red" }}>{errors.matricula}</div>}
+        <input name="matricula" placeholder="Matrícula" onChange={change} />
 
-        <input name="especialidad" placeholder="Especialidad" onChange={change} />
         {errors.especialidad && <div style={{ color: "red" }}>{errors.especialidad}</div>}
+        <input name="especialidad" placeholder="Especialidad" onChange={change} />
 
         {apiError && <div style={{ color: "red" }}>{apiError}</div>}
 

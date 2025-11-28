@@ -53,7 +53,9 @@ class MedicoModel:
         try:
             medico = self.collection.find_one({"_id": ObjectId(medico_id)})
             if medico and "_id" in medico:
-                medico["_id"] = str(medico["_id"]) 
+                medico["_id"] = str(medico["_id"])
+                
+            medico = {"_id": medico["_id"], **medico} 
             return medico
         except Exception as e:
             print(f"Error al buscar médico por ID: {e}")

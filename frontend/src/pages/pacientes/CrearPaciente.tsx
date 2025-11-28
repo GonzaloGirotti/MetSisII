@@ -22,17 +22,6 @@ export default function CrearPaciente() {
     setErrors({ ...errors, [e.target.name]: "" });
   };
 
-  // const validate = () => {
-  //   const errs: Record<string, string> = {};
-
-  //   if (!form.nombre.trim()) errs.nombre = "Nombre requerido";
-  //   if (!form.edad.trim()) errs.edad = "Edad requerida";
-  //   if (!form.dni.trim()) errs.dni = "DNI requerido";
-  //   if (!form.obra_social.trim()) errs.obra_social = "Obra social requerida";
-
-  //   return errs;
-  // };
-
   // ERROR HANDLER 
   const validate = paciente_handler;
 

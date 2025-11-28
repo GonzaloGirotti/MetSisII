@@ -30,10 +30,12 @@ export default function EditarMedico() {
   const enviar = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      await MedicoFacade.update({
-        _id: id,                // ✅ CLAVE PARA TU BACKEND
-        ...medico,
-      });
+      const bodyActualizado = {
+        nombre: medico.nombre,
+        matricula: medico.matricula,
+        especialidad: medico.especialidad,
+      }
+      await MedicoFacade.update(id!, bodyActualizado);
       navigate("/medicos");
     } catch {
       setApiError("Error actualizando médico");
