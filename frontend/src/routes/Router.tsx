@@ -3,7 +3,7 @@ import Navbar from "../components/Navbar";
 
 import Home from "../pages/Home";
 import Login from "../pages/Login";
-import { PrivateRoute } from "../components/PrivateRoute";
+import PrivateRoute from "../components/PrivateRoute";
 
 import MedicosList from "../pages/medicos/MedicosList";
 import CrearMedico from "../pages/medicos/CrearMedico";
