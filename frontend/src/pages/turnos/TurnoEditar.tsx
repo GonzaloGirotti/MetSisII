@@ -1,75 +1,67 @@
-import { useEffect, useState } from "react";
-import { api } from "../../api/api";
+import { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
+import { MedicoFacade, PacienteFacade, TurnoFacade } from "../../api/api";
 
 export default function TurnoEditar() {
   const { id } = useParams();
   const navigate = useNavigate();
 
-  const [form, setForm] = useState({
-    medicoId: "",
+  const [pacientes, setPacientes] = useState<any[]>([]);
+  const [medicos, setMedicos] = useState<any[]>([]);
+
+  const [turno, setTurno] = useState({
     pacienteId: "",
+    medicoId: "",
     fecha: "",
   });
 
-  useEffect(() => {
-    api
-      .get(`/turnos/${id}`)
-      .then((res) => {
-        const turno = res.data;
+  const [apiError, setApiError] = useState<string | null>(null);
 
-        setForm({
-          medicoId: turno.medicoId,
-          pacienteId: turno.pacienteId,
-          fecha: turno.fecha,
-        });
-      })
-      .catch(() => alert("Backend no disponible aún"));
+  useEffect(() => {
+    const cargar = async () => {
+      try {
+        setTurno(await TurnoFacade.getById(id!));
+        setPacientes(await PacienteFacade.getAll());
+        setMedicos(await MedicoFacade.getAll());
+      } catch {
+        setApiError("Error cargando turno");
+      }
+    };
+    cargar();
   }, [id]);
 
-  const change = (e) =>
-    setForm({ ...form, [e.target.name]: e.target.value });
-
-  const enviar = (e) => {
+  const handleSubmit = async (e: any) => {
     e.preventDefault();
-
-    api
-      .put(`/turnos/${id}`, form)
-      .then(() => navigate("/turnos"))
-      .catch(() => alert("Backend no disponible aún"));
+    try {
+      await TurnoFacade.update(id!, turno);
+      navigate("/turnos");
+    } catch {
+      setApiError("Error editando turno");
+    }
   };
 
   return (
     <div className="card">
       <h2>Editar Turno</h2>
 
-      <form onSubmit={enviar}>
-        <label>Médico</label>
-        <input
-          name="medicoId"
-          value={form.medicoId}
-          onChange={change}
-          required
-        />
+      <form onSubmit={handleSubmit}>
+        <select value={turno.pacienteId} onChange={(e) => setTurno({ ...turno, pacienteId: e.target.value })}>
+          {pacientes.map((p) => (
+            <option key={p.id} value={p.id}>{p.nombre}</option>
+          ))}
+        </select>
 
-        <label>Paciente</label>
-        <input
-          name="pacienteId"
-          value={form.pacienteId}
-          onChange={change}
-          required
-        />
+        <select value={turno.medicoId} onChange={(e) => setTurno({ ...turno, medicoId: e.target.value })}>
+          {medicos.map((m) => (
+            <option key={m.id} value={m.id}>{m.nombre}</option>
+          ))}
+        </select>
 
-        <label>Fecha</label>
-        <input
-          type="datetime-local"
-          name="fecha"
-          value={form.fecha}
-          onChange={change}
-          required
-        />
+        <input type="datetime-local" value={turno.fecha} onChange={(e) => setTurno({ ...turno, fecha: e.target.value })} />
 
-        <button className="btn btn-primary">Guardar cambios</button>
+        {apiError && <div style={{ color: "red" }}>{apiError}</div>}
+
+        <button className="btn btn-primary">Guardar</button>
       </form>
     </div>
   );

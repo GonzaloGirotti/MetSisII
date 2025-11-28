@@ -1,36 +1,69 @@
-const API_URL = "http://localhost:3000/api";
 import axios from "axios";
 
+const BASE = import.meta.env.VITE_API_BASE || "http://localhost:8000";
 
-export const api = axios.create({
-  baseURL: "http://localhost:3000",
+const api = axios.create({
+  baseURL: BASE,
   headers: { "Content-Type": "application/json" },
 });
 
-export async function apiGet(url: string) {
-  const res = await fetch(API_URL + url);
-  return res.json();
+/* ===========================
+   MANEJO CENTRALIZADO DE ERRORES
+=========================== */
+async function request<T>(callback: () => Promise<{ data: T }>): Promise<T> {
+  try {
+    const res = await callback();
+    return res.data;
+  } catch (error: any) {
+    const msg =
+      error?.response?.data?.detail ||
+      error?.message ||
+      "Error de comunicación con el servidor";
+    throw new Error(msg);
+  }
 }
 
-export async function apiPost(url: string, body: any) {
-  const res = await fetch(API_URL + url, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(body),
-  });
-  return res.json();
-}
+/* ===========================
+             PACIENTES
+=========================== */
+export const PacienteFacade = {
+  getAll: () => request(() => api.get("/pacientes/")),
+  getById: (id: string) =>
+    request(() => api.get(`/pacientes/id/${id}`)),
+  create: (data: any) =>
+    request(() => api.post("/pacientes/", data)),
+  update: (data: any) =>
+    request(() => api.put("/pacientes/", data)), // usa _id en body
+  remove: (id: string) =>
+    request(() => api.delete(`/pacientes/${id}`)),
+};
 
-export async function apiPut(url: string, body: any) {
-  const res = await fetch(API_URL + url, {
-    method: "PUT",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(body),
-  });
-  return res.json();
-}
+/* ===========================
+             MEDICOS
+=========================== */
+export const MedicoFacade = {
+  getAll: () => request(() => api.get("/medicos/")),
+  getById: (id: string) =>
+    request(() => api.get(`/medicos/id/${id}`)),
+  create: (data: any) =>
+    request(() => api.post("/medicos/", data)),
+  update: (data: any) =>
+    request(() => api.put("/medicos/", data)), // usa _id en body
+  remove: (id: string) =>
+    request(() => api.delete(`/medicos/${id}`)),
+};
 
-export async function apiDelete(url: string) {
-  const res = await fetch(API_URL + url, { method: "DELETE" });
-  return res.json();
-}
+/* ===========================
+             TURNOS
+=========================== */
+export const TurnoFacade = {
+  getAll: () => request(() => api.get("/turnos/")),
+  getById: (id: string) =>
+    request(() => api.get(`/turnos/id/${id}`)),
+  create: (data: any) =>
+    request(() => api.post("/turnos/", data)),
+  update: (data: any) =>
+    request(() => api.put("/turnos/", data)),
+  remove: (id: string) =>
+    request(() => api.delete(`/turnos/${id}`)),
+};
