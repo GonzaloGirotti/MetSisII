@@ -1,4 +1,5 @@
 from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
 from routes import medico_routes, paciente_routes
 from database.connection import db_client
 
@@ -13,6 +14,14 @@ async def root():
 
 app.include_router(medico_routes.router)
 app.include_router(paciente_routes.router)
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],     # o ["http://localhost:5173", "https://tuweb.com"]
+    allow_credentials=True,
+    allow_methods=["*"],     # <--- necesario para OPTIONS
+    allow_headers=["*"],     # <--- necesario para JSON
+)
 
 if __name__ == "__main__":
     startup_event()

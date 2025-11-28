@@ -27,9 +27,12 @@ async def get_paciente_dni(dni: int):
 async def crear_paciente(patient: Paciente):
      return pac_control.crear_paciente(patient.dict(), paciente_model)
 
-@router.put("/")
-async def modificar_paciente(patient: Paciente):
-    return pac_control.actualizar_paciente(patient.dict(), paciente_model)
+@router.put("/{id}")
+async def modificar_paciente(id: str, patient: Paciente):
+    paciente_data = patient.dict()
+    paciente_data["_id"] = id
+    print("DATOS RECIBIDOS EN RUTA:", paciente_data)
+    return pac_control.actualizar_paciente(id, paciente_data, paciente_model)
 
 @router.delete("/{id}")
 async def baja_paciente(id: str):

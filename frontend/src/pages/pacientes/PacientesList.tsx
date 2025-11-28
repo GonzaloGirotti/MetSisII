@@ -6,7 +6,8 @@ export default function PacientesList() {
   const [pacientes, setPacientes] = useState<any[]>([]);
 
   const cargar = async () => {
-    setPacientes(await PacienteFacade.getAll());
+    const data = await PacienteFacade.getAll() as any[];
+    setPacientes(data);
   };
 
   const eliminar = async (id: string) => {
@@ -28,13 +29,14 @@ export default function PacientesList() {
       <table>
         <tbody>
           {pacientes.map((p) => (
-            <tr key={p.id}>
+            <tr key={p._id}>
               <td>{p.nombre}</td>
               <td>{p.edad}</td>
-              <td>{p.obraSocial}</td>
+              <td>{p.dni}</td>
+              <td>{p.obra_social}</td>
               <td>
-                <Link to={`/pacientes/editar/${p.id}`} className="btn btn-warning">Editar</Link>
-                <button className="btn btn-danger" onClick={() => eliminar(p.id)}>Eliminar</button>
+                <Link to={`/pacientes/editar/${p._id}`} className="btn btn-warning">Editar</Link>
+                <button className="btn btn-danger" onClick={() => eliminar(p._id)}>Eliminar</button>
               </td>
             </tr>
           ))}

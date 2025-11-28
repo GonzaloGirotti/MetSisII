@@ -21,8 +21,8 @@ export default function TurnoCrear() {
   useEffect(() => {
     const cargar = async () => {
       try {
-        setPacientes(await PacienteFacade.getAll());
-        setMedicos(await MedicoFacade.getAll());
+        setPacientes(await PacienteFacade.getAll() as any[]);
+        setMedicos(await MedicoFacade.getAll() as any[]);
       } catch {
         setApiError("Error cargando datos");
       }

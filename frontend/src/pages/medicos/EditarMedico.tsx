@@ -19,7 +19,7 @@ export default function EditarMedico() {
     const cargar = async () => {
       try {
         const data = await MedicoFacade.getById(id!);
-        setMedico(data);
+        setMedico(data as Medico);
       } catch {
         setApiError("Error cargando médico");
       }

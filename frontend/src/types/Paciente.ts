@@ -2,5 +2,6 @@ export interface Paciente {
   id?: string | number;
   nombre: string;
   edad: number | string;
-  obraSocial: string;
+  dni: string | number;
+  obra_social: string;
 }

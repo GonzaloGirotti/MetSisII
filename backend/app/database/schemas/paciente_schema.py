@@ -1,15 +1,25 @@
+# paciente_schema.py
 from pydantic import BaseModel
 from typing import Optional
 
+# Modelo  para la creación (POST) y lectura (GET)
 class PacienteSchema(BaseModel):
+    _id: Optional[str] = None 
     nombre: str
     edad: int
     dni: int
     obra_social: str
 
+# MODELO para recibir datos en PUT/PATCH
+class PacienteUpdateSchema(BaseModel):
+    nombre: Optional[str] = None
+    edad: Optional[int] = None
+    dni: Optional[int] = None
+    obra_social: Optional[str] = None
 
 def patient_schema(patient) -> dict:
     return {
+        "_id": str(patient["_id"]),
         "nombre": patient.get("nombre"),
         "edad": patient.get("edad"),
         "dni": patient.get("dni"),

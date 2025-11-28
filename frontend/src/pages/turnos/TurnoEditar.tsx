@@ -20,9 +20,9 @@ export default function TurnoEditar() {
   useEffect(() => {
     const cargar = async () => {
       try {
-        setTurno(await TurnoFacade.getById(id!));
-        setPacientes(await PacienteFacade.getAll());
-        setMedicos(await MedicoFacade.getAll());
+        setTurno(await TurnoFacade.getById(id!) as any);
+        setPacientes(await PacienteFacade.getAll() as any[]);
+        setMedicos(await MedicoFacade.getAll() as any[]);
       } catch {
         setApiError("Error cargando turno");
       }

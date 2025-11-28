@@ -65,22 +65,24 @@ def obtener_paciente_por_dni(dni: int, model: PacienteModel) -> dict:
     return paciente_doc
 
 
-def actualizar_paciente(paciente_data: dict, model: PacienteModel) -> dict:
+def actualizar_paciente(paciente_id: str, update_data: dict, model: PacienteModel) -> dict:
     """Actualiza un paciente y devuelve el documento actualizado"""
-    
-    paciente_id = paciente_data.get("_id")
-    update_data = dict(paciente_data)
-    update_data.pop("_id", None)
+    print("Datos: ", update_data)
 
     if not paciente_id:
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST,
                             detail="Se requiere el campo 'id' para actualizar el paciente.")
+
+    update_data.pop("_id")
 
     # 1. Llamada al modelo
     if not model.actualizar_paciente(paciente_id, update_data):
         # Si el modelo devuelve False, significa que el ID no se encontró
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,
                             detail=f"paciente con ID {paciente_id} no encontrado.")
+
+
+    
 
     # 2. Recuperar y devolver el documento actualizado
     return obtener_paciente_por_id(paciente_id, model)

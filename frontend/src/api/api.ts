@@ -32,8 +32,8 @@ export const PacienteFacade = {
     request(() => api.get(`/pacientes/id/${id}`)),
   create: (data: any) =>
     request(() => api.post("/pacientes/", data)),
-  update: (data: any) =>
-    request(() => api.put("/pacientes/", data)), // usa _id en body
+  update: (id: string, data: any) =>
+    request(() => api.put(`/pacientes/${id}`, data)), // usa _id en body
   remove: (id: string) =>
     request(() => api.delete(`/pacientes/${id}`)),
 };

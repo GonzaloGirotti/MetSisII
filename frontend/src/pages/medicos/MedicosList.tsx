@@ -8,7 +8,7 @@ export default function MedicosList() {
 
   const cargar = async () => {
     try {
-      setMedicos(await MedicoFacade.getAll());
+      setMedicos(await MedicoFacade.getAll() as any[]);
     } catch {
       setError("Error cargando médicos");
     }

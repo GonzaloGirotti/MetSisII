@@ -54,6 +54,8 @@ class PacienteModel:
             paciente = self.collection.find_one({"_id": ObjectId(paciente_id)})
             if paciente and "_id" in paciente:
                 paciente["_id"] = str(paciente["_id"]) 
+                
+            paciente = {"_id": paciente["_id"], **paciente}  # Asegura que se retorne una copia del diccionario
             return paciente
         except Exception as e:
             print(f"Error al buscar paciente por ID: {e}")

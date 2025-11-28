@@ -24,11 +24,14 @@ export default function EditarPaciente() {
   const enviar = async (e: any) => {
     e.preventDefault();
     try {
-      await PacienteFacade.update({
-        _id: id,               // ✅ CLAVE PARA TU BACKEND
-        ...form,
-      });
-      navigate("/pacientes");
+      const bodyActualizado = {
+        nombre: form.nombre,
+        edad: Number(form.edad),
+        dni: Number(form.dni),
+        obra_social: form.obra_social,
+      }
+      await PacienteFacade.update(id!, bodyActualizado);
+      navigate(`/pacientes/`);
     } catch {
       setApiError("Error actualizando paciente");
     }
@@ -38,23 +41,28 @@ export default function EditarPaciente() {
     <div className="card">
       <h2>Editar Paciente</h2>
 
-      {apiError && <div style={{ color: "red" }}>{apiError}</div>}
-
       <form onSubmit={enviar}>
         <input
           value={form.nombre || ""}
           onChange={(e) => setForm({ ...form, nombre: e.target.value })}
         />
         <input
-          value={form.edad || ""}
+          value={Number(form.edad) || ""}
           onChange={(e) => setForm({ ...form, edad: e.target.value })}
         />
         <input
-          value={form.obraSocial || ""}
-          onChange={(e) => setForm({ ...form, obraSocial: e.target.value })}
+          value={Number(form.dni) || ""}
+          onChange={(e) => setForm({ ...form, dni: e.target.value })}
+        />
+        <input
+          value={form.obra_social || ""}
+          onChange={(e) => setForm({ ...form, obra_social: e.target.value })}
         />
 
+        {apiError && <div style={{ color: "red" }}>{apiError}</div>}
+
         <button className="btn btn-primary">Guardar</button>
+
       </form>
     </div>
   );
