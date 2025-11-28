@@ -1,4 +1,9 @@
-import { Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import Navbar from "../components/Navbar";
+
+import Home from "../pages/Home";
+import Login from "../pages/Login";
+import { PrivateRoute } from "../components/PrivateRoute";
 
 import MedicosList from "../pages/medicos/MedicosList";
 import CrearMedico from "../pages/medicos/CrearMedico";
@@ -12,25 +17,96 @@ import TurnosList from "../pages/turnos/TurnosList";
 import TurnoCrear from "../pages/turnos/TurnoCrear";
 import TurnoEditar from "../pages/turnos/TurnoEditar";
 
-export default function Router() {
+const Router = () => {
   return (
-    <Routes>
-      <Route path="/" element={<MedicosList />} />
+    <BrowserRouter>
+      <Navbar />
 
-      {/* Médicos */}
-      <Route path="/medicos" element={<MedicosList />} />
-      <Route path="/medicos/crear" element={<CrearMedico />} />
-      <Route path="/medicos/editar/:id" element={<EditarMedico />} />
+      <Routes>
+        <Route path="/" element={<Home />} />
 
-      {/* Pacientes */}
-      <Route path="/pacientes" element={<PacientesList />} />
-      <Route path="/pacientes/crear" element={<CrearPaciente />} />
-      <Route path="/pacientes/editar/:id" element={<EditarPaciente />} />
+        <Route path="/login" element={<Login />} />
 
-      {/* Turnos */}
-      <Route path="/turnos" element={<TurnosList />} />
-      <Route path="/turnos/crear" element={<TurnoCrear />} />
-      <Route path="/turnos/editar/:id" element={<TurnoEditar />} />
-    </Routes>
+        {/* MÉDICOS */}
+        <Route
+          path="/medicos"
+          element={
+            <PrivateRoute>
+              <MedicosList />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/medicos/crear"
+          element={
+            <PrivateRoute>
+              <CrearMedico />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/medicos/editar/:id"
+          element={
+            <PrivateRoute>
+              <EditarMedico />
+            </PrivateRoute>
+          }
+        />
+
+        {/* PACIENTES */}
+        <Route
+          path="/pacientes"
+          element={
+            <PrivateRoute>
+              <PacientesList />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/pacientes/crear"
+          element={
+            <PrivateRoute>
+              <CrearPaciente />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/pacientes/editar/:id"
+          element={
+            <PrivateRoute>
+              <EditarPaciente />
+            </PrivateRoute>
+          }
+        />
+
+        {/* TURNOS */}
+        <Route
+          path="/turnos"
+          element={
+            <PrivateRoute>
+              <TurnosList />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/turnos/crear"
+          element={
+            <PrivateRoute>
+              <TurnoCrear />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/turnos/editar/:id"
+          element={
+            <PrivateRoute>
+              <TurnoEditar />
+            </PrivateRoute>
+          }
+        />
+      </Routes>
+    </BrowserRouter>
   );
-}
+};
+
+export default Router;

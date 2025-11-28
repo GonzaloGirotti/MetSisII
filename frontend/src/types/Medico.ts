@@ -1,6 +1,6 @@
 export interface Medico {
-  id?: number;
+  id?: string | number;
   nombre: string;
-  matricula: number;
+  matricula: string | number;
   especialidad: string;
 }

@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { api } from "../../api/api";
+import { PacienteFacade } from "../../api/api";
 
 export default function CrearPaciente() {
   const navigate = useNavigate();
@@ -11,18 +11,44 @@ export default function CrearPaciente() {
     obraSocial: "",
   });
 
-  const change = (e) =>
+  const [errors, setErrors] = useState<Record<string, string>>({});
+  const [loading, setLoading] = useState(false);
+  const [apiError, setApiError] = useState<string | null>(null);
+
+  const change = (e: React.ChangeEvent<HTMLInputElement>) => {
     setForm({ ...form, [e.target.name]: e.target.value });
+    setErrors({ ...errors, [e.target.name]: "" });
+  };
 
-  const enviar = (e) => {
+  const validate = () => {
+    const errs: Record<string, string> = {};
+
+    if (!form.nombre.trim()) errs.nombre = "Nombre requerido";
+    if (!form.edad.trim()) errs.edad = "Edad requerida";
+    if (!form.obraSocial.trim()) errs.obraSocial = "Obra social requerida";
+
+    return errs;
+  };
+
+  const enviar = async (e: React.FormEvent) => {
     e.preventDefault();
+    setApiError(null);
 
-    if (!form.nombre.trim()) return alert("El nombre es obligatorio");
+    const v = validate();
+    if (Object.keys(v).length) {
+      setErrors(v);
+      return;
+    }
 
-    api
-      .post("/pacientes", form)
-      .then(() => navigate("/pacientes"))
-      .catch(() => alert("Error creando paciente"));
+    try {
+      setLoading(true);
+      await PacienteFacade.create(form);
+      navigate("/pacientes");
+    } catch {
+      setApiError("Error creando paciente");
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -33,29 +59,29 @@ export default function CrearPaciente() {
         <input
           name="nombre"
           placeholder="Nombre"
-          value={form.nombre}
           onChange={change}
-          required
         />
+        {errors.nombre && <div style={{ color: "red" }}>{errors.nombre}</div>}
 
         <input
           name="edad"
           placeholder="Edad"
-          value={form.edad}
           onChange={change}
-          type="number"
-          required
         />
+        {errors.edad && <div style={{ color: "red" }}>{errors.edad}</div>}
 
         <input
           name="obraSocial"
           placeholder="Obra Social"
-          value={form.obraSocial}
           onChange={change}
-          required
         />
+        {errors.obraSocial && <div style={{ color: "red" }}>{errors.obraSocial}</div>}
 
-        <button className="btn btn-primary">Crear</button>
+        {apiError && <div style={{ color: "red" }}>{apiError}</div>}
+
+        <button className="btn btn-primary" disabled={loading}>
+          {loading ? "Creando..." : "Crear"}
+        </button>
       </form>
     </div>
   );
