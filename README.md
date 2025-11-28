@@ -4,7 +4,7 @@
 
 ## 📖 Descripción
 
-Este proyecto corresponde a la materia de Metodología de Sistemas II.\
+Este proyecto corresponde a la materia de Metodología de Sistemas II.
 El objetivo es implementar una **API REST** con operaciones CRUD para
 gestionar pacientes y médicos en una clínica.
 
@@ -15,11 +15,11 @@ La API podrá consumirse desde **Postman** y también se construirá un
 
 ## 🎯 Objetivos
 
--   Desarrollar una **API REST** con Node.js y Express.\
+-   Desarrollar una **API REST** con Node.js y Express.
 -   Implementar operaciones **CRUD** sobre las entidades **Pacientes** y
-    **Médicos**.\
--   Probar el correcto funcionamiento con **Postman**.\
--   Construir una **página web** que consuma la API.\
+    **Médicos**.
+-   Probar el correcto funcionamiento con **Postman**.
+-   Construir una **página web** que consuma la API.
 -   Aplicar un **patrón de diseño** aprendido en clases (Creacional,
     Estructural o de Comportamiento).
 
@@ -91,37 +91,40 @@ y se comunica automáticamente con el gateway en
 ## 🧪 Pruebas con Postman
 
 -   Se incluirá una colección con todos los endpoints para importar en
-    Postman.\
+    Postman.
 -   Pasos:
-    1.  Importar la colección.\
+    1.  Importar la colección.
     2.  Ejecutar las pruebas de **Pacientes** y **Médicos**.
 
 ------------------------------------------------------------------------
 
 ## 🌐 Frontend
 
-El frontend será una página simple que permitirá:\
-- Listar pacientes y médicos.\
-- Crear nuevos registros.\
-- Editar registros existentes.\
+El frontend será una página simple que permitirá:
+- Home
+- Login
+- Logout
+- Listar pacientes, médicos y turnos
+- Crear nuevos registros.
+- Editar registros existentes.
 - Eliminar registros.
 
 ------------------------------------------------------------------------
 
 ## 🧩 Patrón de diseño elegido
 
-De las clases vistas:\
-- **Creacionales:** Singleton, Factory, Builder\
-- **Estructurales:** Adapter, Decorator, Facade\
+De las clases vistas:
+- **Creacionales:** Singleton, Factory, Builder
+- **Estructurales:** Adapter, Decorator, Facade
 - **De comportamiento:** Observer, Strategy, Command
 
 ### ✅ Patrón seleccionado: **Facade**
 
-**Justificación:**\
+**Justificación:**
 En este proyecto tenemos varias operaciones sobre pacientes y médicos
 (altas, bajas, modificaciones, consultas). Si bien cada una tiene su
 propia lógica, podemos exponer una **interfaz unificada y simplificada**
-mediante la API REST.\
+mediante la API REST.
 De esta manera, el frontend y Postman solo ven los endpoints de la API
 (la "fachada"), sin preocuparse por la complejidad interna (consultas
 SQL, validaciones, controladores).
