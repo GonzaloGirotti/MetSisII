@@ -1,35 +1,43 @@
 import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { api } from "../../api/api";
+import { MedicoFacade } from "../../api/api";
+import type { Medico } from "../../types/Medico";
 
 export default function EditarMedico() {
   const { id } = useParams();
   const navigate = useNavigate();
 
-  const [medico, setMedico] = useState({
+  const [medico, setMedico] = useState<Medico>({
     nombre: "",
     matricula: "",
     especialidad: "",
   });
 
+  const [apiError, setApiError] = useState<string | null>(null);
+
   useEffect(() => {
-    api
-      .get(`/medicos/${id}`)
-      .then((res) => setMedico(res.data))
-      .catch(() => alert("Error cargando médico"));
+    const cargar = async () => {
+      try {
+        const data = await MedicoFacade.getById(id!);
+        setMedico(data);
+      } catch {
+        setApiError("Error cargando médico");
+      }
+    };
+    cargar();
   }, [id]);
 
-  const change = (e) => {
-    setMedico({ ...medico, [e.target.name]: e.target.value });
-  };
-
-  const enviar = (e) => {
+  const enviar = async (e: React.FormEvent) => {
     e.preventDefault();
-
-    api
-      .put(`/medicos/${id}`, medico)
-      .then(() => navigate("/medicos"))
-      .catch(() => alert("Error al editar médico"));
+    try {
+      await MedicoFacade.update({
+        _id: id,                // ✅ CLAVE PARA TU BACKEND
+        ...medico,
+      });
+      navigate("/medicos");
+    } catch {
+      setApiError("Error actualizando médico");
+    }
   };
 
   return (
@@ -38,25 +46,19 @@ export default function EditarMedico() {
 
       <form onSubmit={enviar}>
         <input
-          name="nombre"
           value={medico.nombre}
-          onChange={change}
-          placeholder="Nombre"
+          onChange={(e) => setMedico({ ...medico, nombre: e.target.value })}
         />
-
         <input
-          name="matricula"
           value={medico.matricula}
-          onChange={change}
-          placeholder="Matrícula"
+          onChange={(e) => setMedico({ ...medico, matricula: e.target.value })}
+        />
+        <input
+          value={medico.especialidad}
+          onChange={(e) => setMedico({ ...medico, especialidad: e.target.value })}
         />
 
-        <input
-          name="especialidad"
-          value={medico.especialidad}
-          onChange={change}
-          placeholder="Especialidad"
-        />
+        {apiError && <div style={{ color: "red" }}>{apiError}</div>}
 
         <button className="btn btn-primary">Guardar</button>
       </form>
