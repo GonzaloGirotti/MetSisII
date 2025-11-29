@@ -2,6 +2,12 @@ import axios from "axios";
 
 const BASE = import.meta.env.VITE_API_BASE || "http://localhost:8000";
 
+/* 
+Configuración de Axios
+- baseURL: URL base de la API
+- headers: encabezados comunes para todas las solicitudes
+*/
+
 const api = axios.create({
   baseURL: BASE,
   headers: { "Content-Type": "application/json" },
@@ -10,6 +16,11 @@ const api = axios.create({
 /* ===========================
    MANEJO CENTRALIZADO DE ERRORES
 =========================== */
+
+/* 
+  Función genérica para manejar solicitudes y errores,
+  recibe un callback que realiza la solicitud y devuelve los datos o lanza un error.
+*/
 async function request<T>(callback: () => Promise<{ data: T }>): Promise<T> {
   try {
     const res = await callback();

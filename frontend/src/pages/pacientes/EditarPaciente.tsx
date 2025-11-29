@@ -3,9 +3,11 @@ import { useParams, useNavigate } from "react-router-dom";
 import { PacienteFacade } from "../../api/api";
 
 export default function EditarPaciente() {
+  // Obtener el ID del paciente desde los parámetros de la URL
   const { id } = useParams();
   const navigate = useNavigate();
 
+  // Estado del formulario y error de API
   const [form, setForm] = useState<any>({});
   const [apiError, setApiError] = useState<string | null>(null);
 
@@ -21,6 +23,7 @@ export default function EditarPaciente() {
     cargar();
   }, [id]);
 
+  // Envía el formulario para actualizar el paciente
   const enviar = async (e: any) => {
     e.preventDefault();
     try {

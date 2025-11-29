@@ -5,11 +5,13 @@ import { PacienteFacade } from "../../api/api";
 export default function PacientesList() {
   const [pacientes, setPacientes] = useState<any[]>([]);
 
+  // Cargar la lista de pacientes desde la API
   const cargar = async () => {
     const data = await PacienteFacade.getAll() as any[];
     setPacientes(data);
   };
 
+  // Eliminar un paciente por ID
   const eliminar = async (id: string) => {
     if (!confirm("¿Eliminar paciente?")) return;
     await PacienteFacade.remove(id);

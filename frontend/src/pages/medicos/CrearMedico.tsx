@@ -7,6 +7,7 @@ import { medico_handler } from "../../error_handlers/medico_error_handler";
 export default function CrearMedico() {
   const navigate = useNavigate();
 
+  // Estado del formulario, errores, carga y error de API
   const [form, setForm] = useState<Medico>({
     nombre: "",
     matricula: "",
@@ -17,13 +18,16 @@ export default function CrearMedico() {
   const [loading, setLoading] = useState(false);
   const [apiError, setApiError] = useState<string | null>(null);
 
+  // Maneja cambios en los campos del formulario
   const change = (e: React.ChangeEvent<HTMLInputElement>) => {
     setForm({ ...form, [e.target.name]: e.target.value });
     setErrors({ ...errors, [e.target.name]: "" });
   };
 
+  // Valida el formulario usando el handler
   const validate = medico_handler(form)
 
+  // Envía el formulario para crear un nuevo médico
   const enviar = async (e: React.FormEvent) => {
     e.preventDefault();
     setApiError(null);

@@ -1,3 +1,6 @@
+// gateway/index.js
+// Puente entre el frontend (React) y el backend (Python FastAPI)
+
 import express from "express";
 import fetch from "node-fetch";
 import dotenv from "dotenv";

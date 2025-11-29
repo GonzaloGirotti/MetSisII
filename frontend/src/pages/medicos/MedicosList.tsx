@@ -6,6 +6,7 @@ export default function MedicosList() {
   const [medicos, setMedicos] = useState<any[]>([]);
   const [error, setError] = useState<string | null>(null);
 
+  // Cargar la lista de médicos desde la API
   const cargar = async () => {
     try {
       setMedicos(await MedicoFacade.getAll() as any[]);
@@ -14,6 +15,7 @@ export default function MedicosList() {
     }
   };
 
+  // Eliminar un médico por ID
   const eliminar = async (id: string) => {
     if (!confirm("¿Eliminar médico?")) return;
     await MedicoFacade.remove(id);

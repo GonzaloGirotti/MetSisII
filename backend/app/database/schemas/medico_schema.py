@@ -2,13 +2,18 @@ from pydantic import BaseModel
 from typing import Optional
 
 # Modelo  para la creación (POST) y lectura (GET)
-class MedicoSchema(BaseModel):
+class MedicoSchema(BaseModel): 
     _id: Optional[str] = None 
     nombre: str
     matricula: int
     especialidad: str
 
 # MODELO para recibir datos en PUT/PATCH
+"""
+Permite que los campos sean opcionales al actualizar,
+ya que el se puede querer actualizar solo algunos campos.
+"""
+ 
 class MedicoUpdateSchema(BaseModel):
     nombre: Optional[str] = None
     matricula: Optional[int] = None

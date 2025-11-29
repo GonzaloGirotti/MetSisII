@@ -6,6 +6,7 @@ import { paciente_handler } from "../../error_handlers/paciente_error_handler";
 export default function CrearPaciente() {
   const navigate = useNavigate();
 
+  // Estado del formulario, errores, carga y error de API
   const [form, setForm] = useState({
     nombre: "",
     edad: "",
@@ -22,9 +23,10 @@ export default function CrearPaciente() {
     setErrors({ ...errors, [e.target.name]: "" });
   };
 
-  // ERROR HANDLER 
+  // Valida el formulario usando el handler 
   const validate = paciente_handler;
 
+  // Envía el formulario para crear un nuevo paciente
   const enviar = async (e: React.FormEvent) => {
     e.preventDefault();
     setApiError(null);

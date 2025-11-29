@@ -11,6 +11,7 @@ export default function TurnosList() {
       setError("");
       setLoading(true);
 
+      // Cargar la lista de turnos desde la API
       const res = await fetch("http://localhost:8000/turnos");
       if (!res.ok) throw new Error("Error HTTP");
 
@@ -29,6 +30,7 @@ export default function TurnosList() {
     }
   };
 
+  // Eliminar un turno por ID
   const eliminarTurno = async (id: string) => {
     try {
       await fetch(`http://localhost:8000/turnos/${id}`, { method: "DELETE" });

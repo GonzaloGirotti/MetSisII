@@ -1,5 +1,7 @@
 import { TurnoFacade } from "./api";
 
+// Reexportar las funciones del facade para usarlas en otros módulos
+
 export const getTurnos = TurnoFacade.getAll;
 export const getTurno = TurnoFacade.getById;
 export const crearTurno = TurnoFacade.create;

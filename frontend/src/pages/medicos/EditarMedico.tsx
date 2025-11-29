@@ -4,17 +4,21 @@ import { MedicoFacade } from "../../api/api";
 import type { Medico } from "../../types/Medico";
 
 export default function EditarMedico() {
+  // Obtener el ID del médico desde los parámetros de la URL
   const { id } = useParams();
   const navigate = useNavigate();
 
+  // Estado del formulario y error de API
   const [medico, setMedico] = useState<Medico>({
     nombre: "",
     matricula: "",
     especialidad: "",
   });
 
+  // Estado de error de API
   const [apiError, setApiError] = useState<string | null>(null);
 
+  // Cargar los datos del médico al montar el componente
   useEffect(() => {
     const cargar = async () => {
       try {
@@ -27,6 +31,7 @@ export default function EditarMedico() {
     cargar();
   }, [id]);
 
+  // Envía el formulario para actualizar el médico
   const enviar = async (e: React.FormEvent) => {
     e.preventDefault();
     try {

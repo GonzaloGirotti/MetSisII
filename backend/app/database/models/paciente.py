@@ -1,6 +1,7 @@
 from typing import Optional
 from pymongo.errors import DuplicateKeyError
 from bson import ObjectId
+from bson.errors import InvalidId 
 
 
 class PacienteModel:
@@ -80,6 +81,12 @@ class PacienteModel:
                 {"$set": update_data}
             )
             return resultado.modified_count > 0 # Devuelve True si se modificó algún documento
+        
+        except InvalidId as e:
+            # Captura si el formato de la string no es un ObjectId válido
+            print(f"Error al actualizar paciente: ID de formato inválido: {e}")
+            return False
+        
         except Exception as e:
             print(f"Error al actualizar paciente: {e}")
             return False

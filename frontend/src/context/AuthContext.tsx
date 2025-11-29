@@ -14,11 +14,13 @@ const ADMIN_USER = {
   password: "1234",
 };
 
+// Proveedor de contexto de autenticación
 export const AuthProvider = ({ children }: any) => {
   const [isLogged, setIsLogged] = useState<boolean>(
     sessionStorage.getItem("isLogged") === "true"
   );
 
+  // Función de login simulada, verifica contra el usuario admin
   const login = (user: string, pass: string) => {
     if (user === ADMIN_USER.username && pass === ADMIN_USER.password) {
       setIsLogged(true);

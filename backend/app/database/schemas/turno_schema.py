@@ -17,6 +17,10 @@ class TurnoResponseSchema(TurnoSchema):
     paciente_nombre: str
 
 # Modelo para la ACTUALIZACIÓN (PUT/PATCH)
+"""
+Permite que los campos sean opcionales al actualizar,
+ya que el se puede querer actualizar solo algunos campos.
+"""
 class TurnoUpdateSchema(BaseModel):
     fecha: Optional[str] = None
     hora: Optional[str] = None

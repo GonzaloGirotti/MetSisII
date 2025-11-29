@@ -5,6 +5,7 @@ from fastapi import HTTPException, status
 from database.models.medico import MedicoModel
 
 
+
 # Función auxiliar para inicializar el modelo
 def get_medico_model(db_client) -> MedicoModel:
     return MedicoModel(db_client)

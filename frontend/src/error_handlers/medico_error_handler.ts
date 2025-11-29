@@ -1,5 +1,7 @@
 import type { Medico } from "../types/Medico";
 
+// Función para validar el formulario de médico
+
 export const medico_handler = (form: Medico) => {
     const errs: Record<string, string> = {};
 

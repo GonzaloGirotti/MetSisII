@@ -9,14 +9,17 @@ export default function TurnoEditar() {
   const [pacientes, setPacientes] = useState<any[]>([]);
   const [medicos, setMedicos] = useState<any[]>([]);
 
+  // Estado del formulario y error de API
   const [turno, setTurno] = useState({
     pacienteId: "",
     medicoId: "",
     fecha: "",
   });
 
+  // Envía el formulario para actualizar el turno
   const [apiError, setApiError] = useState<string | null>(null);
 
+  // Cargar el turno, pacientes y médicos desde la API
   useEffect(() => {
     const cargar = async () => {
       try {
@@ -30,6 +33,7 @@ export default function TurnoEditar() {
     cargar();
   }, [id]);
 
+  // Envía el formulario para actualizar el turno
   const handleSubmit = async (e: any) => {
     e.preventDefault();
     try {

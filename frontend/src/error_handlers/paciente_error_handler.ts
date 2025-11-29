@@ -1,5 +1,7 @@
 import type { Paciente } from "../types/Paciente";
 
+// Función para validar el formulario de paciente
+
 export const paciente_handler = (form: Paciente) => {
     const errs: Record<string, string> = {};
 

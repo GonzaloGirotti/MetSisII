@@ -10,6 +10,10 @@ class PacienteSchema(BaseModel):
     obra_social: str
 
 # MODELO para recibir datos en PUT/PATCH
+"""
+Permite que los campos sean opcionales al actualizar,
+ya que el se puede querer actualizar solo algunos campos.
+"""
 class PacienteUpdateSchema(BaseModel):
     nombre: Optional[str] = None
     edad: Optional[int] = None
