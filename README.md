@@ -121,7 +121,7 @@ y se comunica automáticamente con el gateway en
 
 El frontend será una página simple que permitirá:
 - Home
-- Login
+- Login (user: admin, pass: 1234)
 - Logout
 - Listar pacientes, médicos y turnos
 - Crear nuevos registros.
