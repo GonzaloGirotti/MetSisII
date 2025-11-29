@@ -1,20 +1,20 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { PacienteFacade } from "../../api/api";
+import * as PacienteAPI from "../../api/pacienteApi";
 
 export default function PacientesList() {
   const [pacientes, setPacientes] = useState<any[]>([]);
 
   // Cargar la lista de pacientes desde la API
   const cargar = async () => {
-    const data = await PacienteFacade.getAll() as any[];
+    const data = await PacienteAPI.getPacientes() as any[];
     setPacientes(data);
   };
 
   // Eliminar un paciente por ID
   const eliminar = async (id: string) => {
     if (!confirm("¿Eliminar paciente?")) return;
-    await PacienteFacade.remove(id);
+    await PacienteAPI.eliminarPaciente(id);
     cargar();
   };
 
@@ -27,6 +27,7 @@ export default function PacientesList() {
       <h2>Pacientes</h2>
 
       <Link to="/pacientes/crear" className="btn btn-primary">Crear Paciente</Link>
+      <Link to="/pacientes/buscar" className="btn btn-secondary">Buscar Paciente por DNI</Link>
 
       <table>
         <tbody>

@@ -8,10 +8,12 @@ import Login from "./pages/Login";
 import MedicosList from "./pages/medicos/MedicosList";
 import CrearMedico from "./pages/medicos/CrearMedico";
 import EditarMedico from "./pages/medicos/EditarMedico";
+import BuscarMedicoMatricula from "./pages/medicos/BuscarMedicoMatricula";
 
 import PacientesList from "./pages/pacientes/PacientesList";
 import CrearPaciente from "./pages/pacientes/CrearPaciente";
 import EditarPaciente from "./pages/pacientes/EditarPaciente";
+import BuscarPacienteDNI from "./pages/pacientes/BuscarPacienteDNI";
 
 import TurnosList from "./pages/turnos/TurnosList";
 import TurnoCrear from "./pages/turnos/TurnoCrear";
@@ -53,6 +55,15 @@ export default function App() {
         />
 
         <Route
+          path="/medicos/buscar"
+          element={
+            <PrivateRoute>
+              <BuscarMedicoMatricula />
+            </PrivateRoute>
+          }
+        />
+
+        <Route
           path="/pacientes"
           element={
             <PrivateRoute>
@@ -75,6 +86,15 @@ export default function App() {
           element={
             <PrivateRoute>
               <EditarPaciente />
+            </PrivateRoute>
+          }
+        />
+
+        <Route
+          path="/pacientes/buscar"
+          element={
+            <PrivateRoute>
+              <BuscarPacienteDNI />
             </PrivateRoute>
           }
         />

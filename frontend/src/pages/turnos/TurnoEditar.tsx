@@ -1,6 +1,8 @@
 import { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { MedicoFacade, PacienteFacade, TurnoFacade } from "../../api/api";
+import * as MedicoAPI from "../../api/medicoApi";
+import * as PacienteAPI from "../../api/pacienteApi";
+import * as TurnoAPI from "../../api/turnoApi";
 
 export default function TurnoEditar() {
   const { id } = useParams();
@@ -23,9 +25,9 @@ export default function TurnoEditar() {
   useEffect(() => {
     const cargar = async () => {
       try {
-        setTurno(await TurnoFacade.getById(id!) as any);
-        setPacientes(await PacienteFacade.getAll() as any[]);
-        setMedicos(await MedicoFacade.getAll() as any[]);
+        setTurno(await TurnoAPI.getTurno(id!) as any);
+        setPacientes(await PacienteAPI.getPacientes() as any[]);
+        setMedicos(await MedicoAPI.getMedicos() as any[]);
       } catch {
         setApiError("Error cargando turno");
       }
@@ -37,7 +39,7 @@ export default function TurnoEditar() {
   const handleSubmit = async (e: any) => {
     e.preventDefault();
     try {
-      await TurnoFacade.update(id!, turno);
+      await TurnoAPI.actualizarTurno(id!, turno);
       navigate("/turnos");
     } catch {
       setApiError("Error editando turno");

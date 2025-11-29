@@ -41,6 +41,8 @@ export const PacienteFacade = {
   getAll: () => request(() => api.get("/pacientes/")),
   getById: (id: string) =>
     request(() => api.get(`/pacientes/id/${id}`)),
+  getByDNI: (dni: string) =>
+    request(() => api.get(`/pacientes/dni/${dni}`)),
   create: (data: any) =>
     request(() => api.post("/pacientes/", data)),
   update: (id: string, data: any) =>
@@ -56,6 +58,8 @@ export const MedicoFacade = {
   getAll: () => request(() => api.get("/medicos/")),
   getById: (id: string) =>
     request(() => api.get(`/medicos/id/${id}`)),
+  getByMatricula: (matricula: string) =>
+    request(() => api.get(`/medicos/matricula/${matricula}`)),
   create: (data: any) =>
     request(() => api.post("/medicos/", data)),
   update: (id: string, data: any) =>

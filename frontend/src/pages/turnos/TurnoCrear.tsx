@@ -1,6 +1,8 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { MedicoFacade, PacienteFacade, TurnoFacade } from "../../api/api";
+import * as MedicoAPI from "../../api/medicoApi";
+import * as PacienteAPI from "../../api/pacienteApi";
+import * as TurnoAPI from "../../api/turnoApi";
 import { turno_handler } from "../../error_handlers/turno_error_handler";
 
 export default function TurnoCrear() {
@@ -25,8 +27,8 @@ export default function TurnoCrear() {
   useEffect(() => {
     const cargar = async () => {
       try {
-        setPacientes(await PacienteFacade.getAll() as any[]);
-        setMedicos(await MedicoFacade.getAll() as any[]);
+        setPacientes(await PacienteAPI.getPacientes() as any[]);
+        setMedicos(await MedicoAPI.getMedicos() as any[]);
       } catch {
         setApiError("Error cargando datos");
       }
@@ -50,7 +52,7 @@ export default function TurnoCrear() {
 
     try {
       setLoading(true);
-      await TurnoFacade.create({
+      await TurnoAPI.crearTurno({
         ...turno,
         fecha: turno.fecha,
         hora: turno.hora,

@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { MedicoFacade } from "../../api/api";
+import * as MedicoAPI from "../../api/medicoApi";
 import type { Medico } from "../../types/Medico";
 
 export default function EditarMedico() {
@@ -22,7 +22,7 @@ export default function EditarMedico() {
   useEffect(() => {
     const cargar = async () => {
       try {
-        const data = await MedicoFacade.getById(id!);
+        const data = await MedicoAPI.getMedico(id!);
         setMedico(data as Medico);
       } catch {
         setApiError("Error cargando médico");
@@ -40,7 +40,7 @@ export default function EditarMedico() {
         matricula: medico.matricula,
         especialidad: medico.especialidad,
       }
-      await MedicoFacade.update(id!, bodyActualizado);
+      await MedicoAPI.actualizarMedico(id!, bodyActualizado);
       navigate("/medicos");
     } catch {
       setApiError("Error actualizando médico");

@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { PacienteFacade } from "../../api/api";
+import * as PacienteAPI from "../../api/pacienteApi";
 import { paciente_handler } from "../../error_handlers/paciente_error_handler";
 
 export default function CrearPaciente() {
@@ -40,7 +40,7 @@ export default function CrearPaciente() {
     try {
       setLoading(true);
       // Convertir edad y dni a números antes de enviar
-      await PacienteFacade.create({
+      await PacienteAPI.crearPaciente({
         ...form,
         edad: Number(form.edad),
         dni: Number(form.dni),

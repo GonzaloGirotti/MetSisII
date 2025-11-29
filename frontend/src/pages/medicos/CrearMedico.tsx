@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { MedicoFacade } from "../../api/api";
+import * as MedicoAPI from "../../api/medicoApi";
 import type { Medico } from "../../types/Medico";
 import { medico_handler } from "../../error_handlers/medico_error_handler";
 
@@ -40,7 +40,7 @@ export default function CrearMedico() {
 
     try {
       setLoading(true);
-      await MedicoFacade.create(form);
+      await MedicoAPI.crearMedico(form);
       navigate("/medicos");
     } catch {
       setApiError("Error creando médico");

@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { MedicoFacade } from "../../api/api";
+import * as MedicoAPI from "../../api/medicoApi";
 
 export default function MedicosList() {
   const [medicos, setMedicos] = useState<any[]>([]);
@@ -9,7 +9,7 @@ export default function MedicosList() {
   // Cargar la lista de médicos desde la API
   const cargar = async () => {
     try {
-      setMedicos(await MedicoFacade.getAll() as any[]);
+      setMedicos(await MedicoAPI.getMedicos() as any[]);
     } catch {
       setError("Error cargando médicos");
     }
@@ -18,7 +18,7 @@ export default function MedicosList() {
   // Eliminar un médico por ID
   const eliminar = async (id: string) => {
     if (!confirm("¿Eliminar médico?")) return;
-    await MedicoFacade.remove(id);
+    await MedicoAPI.eliminarMedico(id);
     cargar();
   };
 
@@ -31,6 +31,7 @@ export default function MedicosList() {
       <h2>Médicos</h2>
 
       <Link to="/medicos/crear" className="btn btn-primary">Crear Médico</Link>
+      <Link to="/medicos/buscar" className="btn btn-secondary">Buscar Médico por Matrícula</Link>
 
       {error && <div style={{ color: "red" }}>{error}</div>}
 

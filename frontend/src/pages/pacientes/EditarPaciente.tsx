@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { PacienteFacade } from "../../api/api";
+import * as PacienteAPI from "../../api/pacienteApi";
 
 export default function EditarPaciente() {
   // Obtener el ID del paciente desde los parámetros de la URL
@@ -14,7 +14,7 @@ export default function EditarPaciente() {
   useEffect(() => {
     const cargar = async () => {
       try {
-        const data = await PacienteFacade.getById(id!);
+        const data = await PacienteAPI.getPaciente(id!);
         setForm(data);
       } catch {
         setApiError("Error cargando paciente");
@@ -33,7 +33,7 @@ export default function EditarPaciente() {
         dni: Number(form.dni),
         obra_social: form.obra_social,
       }
-      await PacienteFacade.update(id!, bodyActualizado);
+      await PacienteAPI.actualizarPaciente(id!, bodyActualizado);
       navigate(`/pacientes/`);
     } catch {
       setApiError("Error actualizando paciente");
