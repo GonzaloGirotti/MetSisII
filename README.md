@@ -25,48 +25,67 @@ La API podrá consumirse desde **Postman** y también se construirá un
 
 ------------------------------------------------------------------------
 
-## 🚀 Instalación y ejecución
-
-1.  Clonar el repositorio:
-
-    ``` bash
-    git clone https://github.com/GonzaloGirotti/MetSisII
-    ```
 
 ## 🚀 Instalación y ejecución
+
+## .ENV:
+Crear un archivo `.env` en el directorio `gateway/` con la siguiente variable:
+
+- PYTHON_API=http://localhost:8000
+
+## 🛠️ Backend (Python + FastAPI + MongoDB)
+IMPORTANTE! 
+Primero Levantar una instancia de MongoDB (local o en la nube, por ejemploMongoDB Atlas),
+para correr el backend.
+
 1. Clonar el repositorio:
    ```bash
    git clone https://github.com/GonzaloGirotti/MetSisII
    ```
-2. Navegar al directorio del backend python del proyecto:
+
+2. Crear un entorno virtual (opcional pero recomendado),
+   en la raiz del proyecto:
+```bash
+python -m venv venv
+source venv/bin/activate  # En Windows: venv\Scripts\activate
+```
+
+3. Navegar al directorio del backend python del proyecto:
    ```bash
    cd backend/app
    ```
-3. Instalar las dependencias:
+   
+4. Instalar las dependencias:
    ```bash
    pip install -r requirements.txt
    ```
 
-4. Navegar al directorio del gateway:
+5. Navegar al directorio del gateway:
    ```bash
    cd ../../gateway
    ```
 
-5. Instalar las dependencias:
+6. Instalar dependencias:
    
    ```bash
    npm install
    ```
 
+7. Ejecutar el gateway:
+   
+   ```bash
+   npm run dev
+   ```
+
 ## 🌐 Frontend (React + Vite + TypeScript)
 
-6.  Navegar al directorio del frontend:
+8.  Navegar al directorio del frontend:
 
     ``` bash
     cd ../frontend
     ```
 
-7.  Instalar dependencias:
+9.  Instalar dependencias:
 
     ``` bash
     npm install
@@ -75,7 +94,7 @@ La API podrá consumirse desde **Postman** y también se construirá un
     ``` bash
     npm install axios
     ```
-8. Ejecutar el servidor de desarrollo:
+10. Ejecutar el servidor de desarrollo:
 
 ``` bash
 npm run dev
@@ -94,7 +113,7 @@ y se comunica automáticamente con el gateway en
     Postman.
 -   Pasos:
     1.  Importar la colección.
-    2.  Ejecutar las pruebas de **Pacientes** y **Médicos**.
+    2.  Ejecutar las pruebas de **Pacientes**, **Médicos** y **Turnos**.
 
 ------------------------------------------------------------------------
 

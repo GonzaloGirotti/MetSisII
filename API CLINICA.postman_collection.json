@@ -1,0 +1,121 @@
+{
+	"info": {
+		"_postman_id": "8c093456-c4db-44d5-af52-c6fe1c90c9a9",
+		"name": "API CLINICA",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "30796843"
+	},
+	"item": [
+		{
+			"name": "GET",
+			"item": [
+				{
+					"name": "GET MEDICOS",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\"dni\": 456778989,\n\"nombre\": \"Juan\",\n\"apellido\": \"Salame\",\n\"matricula\": 2290,\n\"telefono\": 2914445784,\n\"email\": \"jjs@email.com\",\n\"habilitado\": \"true\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:3000/api/medicos/",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"medicos",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET TURNOS",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:3000/api/turnos/",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"turnos",
+								""
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "POST",
+			"item": [
+				{
+					"name": "CREAR_PACIENTE",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\"nombre\": \"Juan\",\n\"edad\": 20,\n\"dni\": 456778989,\n\"obra_social\": \"IOMA\"\n}"
+						},
+						"url": {
+							"raw": "localhost:3000/api/pacientes/",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"pacientes",
+								""
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "DELETE",
+			"item": [
+				{
+					"name": "BORRAR_PACIENTE",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "localhost:3000/api/pacientes/{inserte OID aqui}",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"pacientes",
+								"{inserte OID aqui}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
