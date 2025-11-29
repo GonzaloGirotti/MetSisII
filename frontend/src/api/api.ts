@@ -62,8 +62,8 @@ export const TurnoFacade = {
     request(() => api.get(`/turnos/id/${id}`)),
   create: (data: any) =>
     request(() => api.post("/turnos/", data)),
-  update: (data: any) =>
-    request(() => api.put("/turnos/", data)),
+  update: (id: string, data: any) =>
+    request(() => api.put(`/turnos/${id}`, data)),
   remove: (id: string) =>
     request(() => api.delete(`/turnos/${id}`)),
 };

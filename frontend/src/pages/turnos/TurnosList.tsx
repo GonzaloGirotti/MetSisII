@@ -15,6 +15,7 @@ export default function TurnosList() {
       if (!res.ok) throw new Error("Error HTTP");
 
       const data = await res.json();
+      console.log("Datos recibidos:", data);
 
       if (!Array.isArray(data)) {
         throw new Error("Formato inválido");

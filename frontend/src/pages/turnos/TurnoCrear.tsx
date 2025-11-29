@@ -9,9 +9,10 @@ export default function TurnoCrear() {
   const [medicos, setMedicos] = useState<any[]>([]);
 
   const [turno, setTurno] = useState({
-    pacienteId: "",
-    medicoId: "",
     fecha: "",
+    hora: "",
+    medico_id: "",
+    paciente_id: "",
   });
 
   const [errors, setErrors] = useState<Record<string, string>>({});
@@ -32,8 +33,8 @@ export default function TurnoCrear() {
 
   const validate = () => {
     const errs: Record<string, string> = {};
-    if (!turno.pacienteId) errs.pacienteId = "Seleccione un paciente";
-    if (!turno.medicoId) errs.medicoId = "Seleccione un médico";
+    if (!turno.paciente_id) errs.paciente_id = "Seleccione un paciente";
+    if (!turno.medico_id) errs.medico_id = "Seleccione un médico";
     if (!turno.fecha) errs.fecha = "La fecha es obligatoria";
     return errs;
   };
@@ -50,7 +51,13 @@ export default function TurnoCrear() {
 
     try {
       setLoading(true);
-      await TurnoFacade.create(turno);
+      await TurnoFacade.create({
+        ...turno,
+        fecha: turno.fecha,
+        hora: turno.hora,
+        medico_id: turno.medico_id,
+        paciente_id: turno.paciente_id,
+      });
       navigate("/turnos");
     } catch {
       setApiError("Error creando turno");
@@ -65,29 +72,35 @@ export default function TurnoCrear() {
 
       <form onSubmit={handleSubmit}>
         <select
-          value={turno.pacienteId}
-          onChange={(e) => setTurno({ ...turno, pacienteId: e.target.value })}
+          value={turno.paciente_id}
+          onChange={(e) => setTurno({ ...turno, paciente_id: e.target.value })}
         >
           <option value="">Seleccione paciente</option>
           {pacientes.map((p) => (
-            <option key={p.id} value={p.id}>{p.nombre}</option>
+            <option key={p._id} value={p._id}>{p.nombre}</option>
           ))}
         </select>
 
         <select
-          value={turno.medicoId}
-          onChange={(e) => setTurno({ ...turno, medicoId: e.target.value })}
+          value={turno.medico_id}
+          onChange={(e) => setTurno({ ...turno, medico_id: e.target.value })}
         >
           <option value="">Seleccione médico</option>
           {medicos.map((m) => (
-            <option key={m.id} value={m.id}>{m.nombre}</option>
+            <option key={m._id} value={m._id}>{m.nombre}</option>
           ))}
         </select>
 
         <input
-          type="datetime-local"
+          type="date"
           value={turno.fecha}
           onChange={(e) => setTurno({ ...turno, fecha: e.target.value })}
+        />
+
+        <input
+          type="time"
+          value={turno.hora}
+          onChange={(e) => setTurno({ ...turno, hora: e.target.value })}
         />
 
         {apiError && <div style={{ color: "red" }}>{apiError}</div>}
